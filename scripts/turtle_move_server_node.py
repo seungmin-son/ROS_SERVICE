@@ -5,18 +5,21 @@ import sys
 # import os
 # sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from srv_test.srv import *
+from move_function import *
 from geometry_msgs.msg import Twist
 import math
-# from move_function import *
+from move_function import *
+# import py_compile
+# py_compile.compile('move_function.py')
 
-def move_turtle_square(lin_vel):
+""" def move_turtle_square(lin_vel):
     # rospy.init_node('move_turtle_server')
     pub = rospy.Publisher('turtle1/cmd_vel', Twist, queue_size=10)
     rate = rospy.Rate(5) # 5hz
  
     while not rospy.is_shutdown():
 
-        vel = Twist()
+        vel = Twist()   
         vel.linear.x = lin_vel 
         vel.linear.y = 0
         vel.linear.z = 0
@@ -80,7 +83,7 @@ def move_turtle_circle(lin_vel,ang_vel):
 
         pub.publish(vel)
 
-        rate.sleep()
+        rate.sleep() """
 
 def handle_move_turtle(req):
     if req.data == 'square':

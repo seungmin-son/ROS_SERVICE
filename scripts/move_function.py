@@ -5,7 +5,6 @@ from geometry_msgs.msg import Twist
 import math
 
 def move_turtle_square(lin_vel):
-    # rospy.init_node('move_turtle_server')
     pub = rospy.Publisher('turtle1/cmd_vel', Twist, queue_size=10)
     rate = rospy.Rate(5) # 5hz
  
@@ -28,8 +27,6 @@ def move_turtle_square(lin_vel):
             rate.sleep()
 
 def move_turtle_triangle(lin_vel):
-    # rospy.init_node('move_turtle_server')
-    rospy.init_node('move_turtle', anonymous=True)
     pub = rospy.Publisher('turtle1/cmd_vel', Twist, queue_size=10)
     rate = rospy.Rate(5) # 3hz
  
@@ -53,8 +50,6 @@ def move_turtle_triangle(lin_vel):
         rospy.loginfo("Linear Vel = %f",lin_vel)
 
 def move_turtle_circle(lin_vel,ang_vel):
-    # rospy.init_node('move_turtle_server')
-    rospy.init_node('move_turtle', anonymous=True)
     pub = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size=10)
     rate = rospy.Rate(10) # 10hz
  
@@ -76,7 +71,3 @@ def move_turtle_circle(lin_vel,ang_vel):
         pub.publish(vel)
 
         rate.sleep()
-
-if __name__ == "__main__":
-    # move_turtle_square(1.0)
-    pass
