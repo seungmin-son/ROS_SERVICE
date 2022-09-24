@@ -4,70 +4,57 @@ import rospy
 from geometry_msgs.msg import Twist
 import math
 
-def move_turtle_square(lin_vel):
-    pub = rospy.Publisher('turtle1/cmd_vel', Twist, queue_size=10)
-    rate = rospy.Rate(5) # 5hz
- 
-    while not rospy.is_shutdown():
+class MoveTurtle:
+    def __init__(self,mode,lin_vel,ang_vel):
+        self.lin_vel = lin_vel
+        self.ang_vel = ang_vel
+        if  mode =='square':
+            rospy.loginfo("사각형을 그리는중")
+            self.ang_vel = math.pi / 4
+            self.cmd()
 
-        vel = Twist()
-        vel.linear.x = lin_vel 
-        vel.linear.y = 0
-        vel.linear.z = 0
-        for i in range(10): # 10 * 5hz = 2sec
-            pub.publish(vel)
-            rate.sleep()
+        elif mode == 'triangle':
+            rospy.loginfo("심각형을 그리는중")
+            self.ang_vel = (math.pi)/3
+            self.cmd()
 
-        vel = Twist()
-        vel.angular.x = 0
-        vel.angular.y = 0
-        vel.angular.z = (math.pi / 4) #45 deg/s * 2sec = 90degree
-        for i in range(10): # 10 * 5hz = 2sec
-            pub.publish(vel)
-            rate.sleep()
-
-def move_turtle_triangle(lin_vel):
-    pub = rospy.Publisher('turtle1/cmd_vel', Twist, queue_size=10)
-    rate = rospy.Rate(5) # 3hz
- 
-    while not rospy.is_shutdown():
-        vel = Twist()
-        vel.linear.x = lin_vel
-        vel.linear.y = 0
-        vel.linear.z = 0
-        for i in range(10): # 10 * 5hz = 2sec
-            pub.publish(vel)
-            rate.sleep()
-
-        vel = Twist()
-        vel.angular.x = 0
-        vel.angular.y = 0
-        vel.angular.z = ((math.pi)/3) # 60 deg/s * 2sec = 120 degrees
-        for i in range(10): # 10 * 5hz = 2sec
-            pub.publish(vel)
-            rate.sleep()
-
-        rospy.loginfo("Linear Vel = %f",lin_vel)
-
-def move_turtle_circle(lin_vel,ang_vel):
-    pub = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size=10)
-    rate = rospy.Rate(10) # 10hz
- 
-    vel = Twist()
-    while not rospy.is_shutdown():
+        elif mode == 'circle':
+            rospy.loginfo("원을 그리는중")
+            self.cmd2()
         
-        vel.linear.x = lin_vel
-        vel.linear.y = 0
-        vel.linear.z = 0
+    def cmd(self):
+        pub = rospy.Publisher('turtle1/cmd_vel', Twist, queue_size=10)
+        rate = rospy.Rate(5)
+        while not rospy.is_shutdown():
+            cmd_msg = Twist()
+            cmd_msg.linear.x = self.lin_vel 
+            cmd_msg.linear.y = 0
+            cmd_msg.linear.z = 0
+            for i in range(10):
+                pub.publish(cmd_msg)
+                rate.sleep()
+            cmd_msg = Twist()
+            cmd_msg.angular.x = 0
+            cmd_msg.angular.y = 0
+            cmd_msg.angular.z = self.ang_vel
+            for i in range(10):
+                pub.publish(cmd_msg)
+                rate.sleep()
+                
+    def cmd2(self):
+        pub = rospy.Publisher('turtle1/cmd_vel', Twist, queue_size=10)
+        rate = rospy.Rate(5)
+        while not rospy.is_shutdown():
+            cmd_msg = Twist()
+            cmd_msg.linear.x = self.lin_vel 
+            cmd_msg.linear.y = 0
+            cmd_msg.linear.z = 0
+            cmd_msg.angular.x = 0
+            cmd_msg.angular.y = 0
+            cmd_msg.angular.z = self.ang_vel
+            pub.publish(cmd_msg)
+            rate.sleep()
 
-        vel.angular.x = 0
-        vel.angular.y = 0
-        vel.angular.z = ang_vel
+if __name__ == "__main__":
+    pass
 
-
-
-        rospy.loginfo("Linear Vel = %f: Angular Vel = %f",lin_vel,ang_vel)
-
-        pub.publish(vel)
-
-        rate.sleep()
