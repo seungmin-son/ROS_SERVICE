@@ -3,5 +3,10 @@
             <param name="background_g" value="155"/>
         </node>    
         <node pkg="srv_test" type="turtle_move_server_node.py" name="turtlemove_server_node"/>
-        <node pkg="srv_test" type="turtle_move_client_node.py" name="turtlemove_client_node" output="screen"/>
+        <node pkg="srv_test" type="turtle_move_client_node.py" name="turtlemove_client_node" output="screen">
+            <param name="square_size" value="1.0"/>
+            <param name="triangle_size" value="1.0"/>
+            <param name="circle_size" value="1.0"/>
+            <param name="angle_vel" value="1.0"/>
+        </node>
     </launch>
